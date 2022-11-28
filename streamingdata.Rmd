@@ -1,0 +1,81 @@
+---
+title: "Individual Portion: Streaming Data"
+subtitle: "STT2860 F22 Project 03"
+author: "Natara, Gracey, Evan"
+date: "`r format(Sys.time(), '%A, %B %d, %Y @ %I:%M %p')`"
+output: 
+  html_document: 
+    theme: cosmo
+    highlight: textmate
+    code_folding: hide
+---
+
+```{r globaloptions, include = FALSE}
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  comment = NA
+)
+```
+***
+
+## Setup
+
+### Packages Used
+
+```{r loadpackages}
+library(tidyverse)
+```
+
+### Datasets Used
+
+### Background of the Data
+
+The datasets were downloaded from [Disney+ Movies and TV Shows | Kaggle](https://www.kaggle.com/datasets/shivamb/disney-movies-and-tv-shows) and [TV shows on Netflix, Prime Video, Hulu and Disney+ | Kaggle](https://www.kaggle.com/datasets/ruchi798/tv-shows-on-netflix-prime-video-hulu-and-disney). You can read about them there, including variable definitions, sources, when they were created, and other information. Load the two datasets and use `glimpse()` to explore their structures.
+
+#### Disney+ Dataset
+
+```{r loaddisneydata}
+disneydata <- readRDS("/home/students/dulaneynl/STT2860/git_repo/STT2860F22project3/data/disneypluscontent.rds")
+disneydata
+```
+
+#### Streaming Dataset
+
+```{r loadstreamingdata}
+streamingdata <- readRDS("/home/students/dulaneynl/STT2860/git_repo/STT2860F22project3/data/streamingcontent.rds")
+
+```
+
+<hr>
+
+## Analyses
+
+### Create the Analysis Datasets
+
+#### Disney+ Dataset
+
+Use `select()` to delete the variables `director`, `cast`, `country`, `listed in`, and `description` from the dataset.
+
+```{r disneyedits}
+  new_disney_data <- select(disneydata, -director, -cast, -country, -listed_in, -description)
+  new_disney_data
+```
+
+#### Streaming Dataset
+
+I used a function called `pivot_longer()` on the downloaded data to change the shape of the dataset. You will need to do additional necessary editing on the dataset before you analyze it.
+
+* Use `filter()` to remove any row where `YesNo` is `0` (a `0` means it is *not* on the service).
+* Use the `separate()` function to split `IMDb`. Separate the show rating from the max rating of `10`. 
+* Use the `separate()` function to split `RottenTomatoes`. Separate the show rating from the max rating of `100`. 
+* Use `mutate()` to convert the shows' IMDb and Rotten Tomatoes ratings into numerical variables instead of categorical.
+
+```{r streamingedits}
+  new_streamingdata <- streamingdata %>%
+  filter(YesNo == 1) %>%
+  separate(col = IMDb , into = c("IMDBdrating", "IMBdmax"), sep = "/") %>%
+  separate(col = RottenTomatoes, into = c("RTrating", "RTmax"), sep = "/")
+
+new_streamingdata
+```
