@@ -221,6 +221,7 @@ When creating the plots, we wanted to make sure that all the data was clearly vi
 
 **Question 4:** Considering best practices, how does using `coord_fixed()` enhance the authenticity of the information shown in the scatterplot, such as the relationship and spread of the data?
 
+**ANSWER**
 
 We used 'coord_fixed()' to fix the ratio of length on the x and y axis to have equal scales. We wanted to make sure that all the information is included in our plots and data so that all the factors are considered when reviewing the information. Using 'coord_fixed()' makes sure that all the information is visible and allows us to view the full spectrum of information provided by the graphs. 
 ***
